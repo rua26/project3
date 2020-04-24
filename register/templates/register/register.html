@@ -7,10 +7,30 @@
 {% block body %}
 	<div class="container">
 		<h1 class="text-center">Regiser</h1>
-		<form class="form-group" method="POST">
+		<form class="form-group" method="POST" data-validate-username-url = "{% url 'validate_username' %}">
 			{% csrf_token %}
 			{{ form|crispy }}
 			<input type="submit" name="Register" class="btn btn-primary text-center" value="Register">
 		</form>
 	</div>
+{% endblock %}
+{% block script %}
+<script>
+	
+
+	$("#id_username").change(function() {
+		var form = $(this).closest("form");
+		$.ajax({
+			url: form.attr('data-validate-username-url'),
+			data: form.serialize(),
+			dataType: 'json',
+			success: data => {
+				if (data.is_taken) {
+					alert(data.error_message);
+				}
+			}
+		});
+	});
+
+</script>
 {% endblock %}
