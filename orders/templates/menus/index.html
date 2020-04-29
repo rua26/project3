@@ -3,10 +3,59 @@
 {% block title %}
 	Pizzas
 {% endblock%}
-<script type="text/javascript">
-	document.g
-</script>
 {% block body %}
+	<!-- Modal -->
+	<div class="modal fade" id="yourcart" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLongTitle">Your cart</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	      	<table class="table">
+	      		<thead>
+	      			<tr>
+	      				<th scope="col">Product</th>
+	      				<th scope="col">Price</th>
+	      				<th scope="col">Quantity</th>
+	      			</tr>
+	      		</thead>
+	      		<tbody class="card-items">
+	      			
+	      			{% for order in orders %}
+	      				{% if user.username == order.user.username %}
+			      			<tr class="card-rows">
+				      			<td scope="row" class="d-flex flex-row jutitfy-content-start align-content-start">
+				      				<img src="https://bizweb.dktcdn.net/thumb/large/100/228/168/products/sualai.jpg?v=1573720306000" width="100" height="100" class="image">
+				      				<span class="card-item-title">{{ order.product }}</span>
+				      			</td>
+				      			<td class="card-price">{{ order.price }} USD</td>
+				      			<td class="card-quantity">
+				      				<input type="number" class="card-quantity-input" value="1">
+				      				<button class="btn btn-danger">Delete</button>
+				      			</td>
+				      		</tr>
+	      				{% endif %}
+	      			{% endfor %}
+
+	      		</tbody>
+	      	</table>
+	      	<div class="cart-total text-right border-top">
+	      		<strong class="cart-total-title">Total: </strong>
+	      		<span class="card-total-price">0 USD</span>
+	      	</div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-primary">Save changes</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
 	<div class="container-fluid">
 		<ul class="nav nav-pills justify-content-end bg-dark text-white">
 			<li class="nav-item">
@@ -31,93 +80,47 @@
 		</div>
 		<ul class="nav nav-pills">
 			<li class="nav-item">
-			    <a class="nav-link active" data-set='regular'>Regular Pizza</a>
+			    <a class="nav-link menu" id="first"  data-page='regulars_list' data-url="{% url 'regular_menu' %}">Regular Pizza</a>
 			</li>
 			<li class="nav-item">
-			    <a class="nav-link" data-set='sicilian'>Sicilian Pizza</a>
+			    <a class="nav-link menu" data-page='sicilians_list' data-url="{% url 'sicilian_menu'%}">Sicilian Pizza</a>
 			</li>
 			<li class="nav-item">
-			    <a class="nav-link" href="#">Link</a>
+			    <a class="nav-link" href="">Link</a>
 			</li>
 			<li class="nav-item">
 			    <a class="nav-link " href="#">Disabled</a>
 			</li>
 		</ul>
-
-		<!-- Modal -->
-		<div class="modal fade" id="yourcart" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-		  <div class="modal-dialog modal-dialog-centered" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <h5 class="modal-title" id="exampleModalLongTitle">Your cart</h5>
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">&times;</span>
-		        </button>
-		      </div>
-		      <div class="modal-body">
-		      	<table class="table">
-		      		<thead>
-		      			<tr>
-		      				<th scope="col">Product</th>
-		      				<th scope="col">Price</th>
-		      				<th scope="col">Quantity</th>
-		      			</tr>
-		      		</thead>
-		      		<tbody class="card-items">
-		      			
-		      			{% for order in orders %}
-		      				{% if user.username == order.user.username %}
-				      			<tr class="card-rows">
-					      			<td scope="row" class="d-flex flex-row jutitfy-content-start align-content-start">
-					      				<img src="https://bizweb.dktcdn.net/thumb/large/100/228/168/products/sualai.jpg?v=1573720306000" width="100" height="100" class="image">
-					      				<span class="card-item-title">{{ order.product }}</span>
-					      			</td>
-					      			<td class="card-price">{{ order.price }} USD</td>
-					      			<td class="card-quantity">
-					      				<input type="number" class="card-quantity-input" value="1">
-					      				<button class="btn btn-danger">Delete</button>
-					      			</td>
-					      		</tr>
-		      				{% endif %}
-		      			{% endfor %}
-
-		      		</tbody>
-		      	</table>
-		      	<div class="cart-total text-right border-top">
-		      		<strong class="cart-total-title">Total: </strong>
-		      		<span class="card-total-price">0 USD</span>
-		      	</div>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-		        <button type="button" class="btn btn-primary">Save changes</button>
-		      </div>
-		    </div>
-		  </div>
-		</div>
-		<div id = 'menu'>
+		<div id = 'body'>
 			<h2 class="text-center">Regular Pizza</h2>
-			<div class="row mt-3">
-				{% for regular in regulars %}
-				<div class="col-lg-3">
-					<div class="card text-center">
-						<div class="card-body">
-							<h4 class='card-title card-product-item'>{{ regular.name }}</h4>
-							<img src="https://bizweb.dktcdn.net/thumb/large/100/228/168/products/sualai.jpg?v=1573720306000" class="card-img-top">
-							<p class="card-text card-price font-weight-bold" id="price">{{ regular.small }} USD</p>
-							<div class="d-flex jutitfy-content-start">
-								<select name="size" class="form-control">
-									<option value='small'>Small</option>
-									<option value='large'>Large</option>
-								</select>
-								<button class="btn btn-primary btn-card">Add to card</button>
-							</div>
-						</div>
-					</div>	
-				</div>
-				{% endfor %}
+			<div class="row mt-3" id='menus'>
 			</div>
-			
 		</div>
 	</div>
+{% endblock %}
+{% block script %}
+<script type="text/x-handlebars-template" id="result">
+	{{ django_context_varable }}
+	{% verbatim %}
+		{{#each this }}
+		<div class="col-lg-3">	
+			<div class="card text-center">
+				<div class="card-body">
+					<h4 class='card-title card-product-item'>{{ name }}</h4>
+					<img src="https://bizweb.dktcdn.net/thumb/large/100/228/168/products/sualai.jpg?v=1573720306000" class="card-img-top">
+					<p class="card-text card-price font-weight-bold" id="price">{{ small }} USD</p>
+					<div class="d-flex jutitfy-content-start">
+						<select name="size" class="form-control">
+							<option value='small'>Small</option>
+							<option value='large'>Large</option>
+						</select>
+						<button class="btn btn-primary btn-card">Add to card</button>
+					</div>
+				</div>
+			</div>
+		</div>	
+		{{/each}}
+	{% endverbatim %}
+</script>
 {% endblock %}

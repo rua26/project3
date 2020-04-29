@@ -47,7 +47,7 @@ class Salad(models.Model):
 		return f'{self.name} - {self.price}'
 
 class Order(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='orders')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
     product = models.CharField(max_length=64)
     price = models.DecimalField(max_digits=4, decimal_places=2)
 

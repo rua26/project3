@@ -12,3 +12,8 @@
   margin-right: 25px;
 }
 
+.menu:hover {
+  color: white;
+  background-color:blue;
+  cursor: pointer;
+}
